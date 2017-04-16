@@ -1,10 +1,10 @@
-# StanfordTreeDrawer
+# Tree Drawer For StanfordCoreNLP
 A small tool to draw a only-text tree as the result of stanford coreNLP.
 Welcome to use!
 
 See Example.java to use.
 
-##The tree we get like this:
+## The tree we get like this:
 
     
                                                                 ROOT                                                            
