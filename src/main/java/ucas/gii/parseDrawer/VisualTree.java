@@ -3,7 +3,6 @@ package ucas.gii.parseDrawer;
 import java.util.List;
 import java.util.Queue;
 
-
 import com.google.common.collect.Lists;
 
 import edu.stanford.nlp.ling.IndexedWord;
@@ -13,6 +12,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @Description 输出各类树的数据结构 将各类树结构转化为VisualTree，便于输出
+ * @author gii
+ * @date 2017年4月16日
+ */
 @AllArgsConstructor
 public class VisualTree {
 	private static final char _SPACE = ' ';
@@ -36,16 +40,7 @@ public class VisualTree {
 	}
 
 	public VisualTree(SemanticGraph tree) {
-
 		this(tree.getFirstRoot(), tree, 0);
-	}
-
-	public VisualTree(Tree tree, int leftOffset) {
-		init(tree, leftOffset);
-	}
-
-	public VisualTree(IndexedWord tree, SemanticGraph root, int leftOffset) {
-		init(tree, root, leftOffset);
 	}
 
 	public String getVisualContent() {
@@ -57,7 +52,7 @@ public class VisualTree {
 		StringBuffer allSb = new StringBuffer();
 		Queue<VisualTree> toOperate = Lists.newLinkedList();
 		toOperate.offer(this);
-		allSb.append(this.content+"\r\n");
+		allSb.append(this.content + "\r\n");
 		while (toOperate.size() > 0) {
 			VisualTree op = toOperate.poll();
 			VisualTree[] children = op.getChildren();
@@ -76,8 +71,8 @@ public class VisualTree {
 			childCount += children.length;
 			levelCount++;
 			if (levelCount == levelLen) {
-				allSb.append(lineSb+"\r\n");
-				allSb.append(sb+"\r\n");
+				allSb.append(lineSb + "\r\n");
+				allSb.append(sb + "\r\n");
 				lineSb.setLength(0);
 				sb.setLength(0);
 				levelCount = 0;
@@ -87,7 +82,14 @@ public class VisualTree {
 		}
 		return allSb.toString();
 	}
+	private VisualTree(Tree tree, int leftOffset) {
+		init(tree, leftOffset);
+	}
 
+	private VisualTree(IndexedWord tree, SemanticGraph root, int leftOffset) {
+		init(tree, root, leftOffset);
+	}
+	
 	private void init(Tree tree, int left) {
 		this.label = tree.label().value();
 		this.left = left;
@@ -130,9 +132,10 @@ public class VisualTree {
 
 	private VisualTree initRelation(IndexedWord tree, IndexedWord child, SemanticGraph root, int left) {
 		String label = root.getEdge(tree, child).getRelation().toString();
-		VisualTree childNode =new VisualTree(child, root, left);
-		int spaceLen = (childNode.content.length() - label.length() + 1) / 2 ;
-		VisualTree relation = new VisualTree(left, new VisualTree[]{childNode},  getFill(_SPACE, spaceLen) + label + getFill(_SPACE, spaceLen), label);
+		VisualTree childNode = new VisualTree(child, root, left);
+		int spaceLen = (childNode.content.length() - label.length() + 1) / 2;
+		VisualTree relation = new VisualTree(left, new VisualTree[] { childNode },
+				getFill(_SPACE, spaceLen) + label + getFill(_SPACE, spaceLen), label);
 		return relation;
 	}
 

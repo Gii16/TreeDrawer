@@ -8,9 +8,9 @@ import java.io.PrintWriter;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.trees.Tree;
 import lombok.Setter;
+
 /**
- * @Description
- * main class to draw tree
+ * @Description 提供绘画树的接口，主要依赖VisualTree结构 可将结果输出至文件或控制台
  * @author gii
  * @date 2017年4月16日
  */
@@ -20,19 +20,28 @@ public class ParseTreeDrawer {
 	@Setter
 	private boolean toConsole;
 
+	/**
+	 * @Description 默认输出至控制台
+	 */
 	public ParseTreeDrawer() {
 		this(true, null);
 	}
 
+	/**
+	 * @Description 输出至制定文件
+	 * @param file
+	 * @param toConsole
+	 * @throws IOException
+	 */
 	public ParseTreeDrawer(File file, boolean toConsole) throws IOException {
 		this(toConsole, new PrintWriter(new FileWriter(file)));
 	}
 
-	private ParseTreeDrawer(boolean toConsole, PrintWriter pw) {
-		this.pw = pw;
-		this.toConsole = toConsole;
-	}
-
+	/**
+	 * 关闭输出流
+	 * 
+	 * @Description
+	 */
 	public void close() {
 		if (pw != null) {
 			pw.close();
@@ -67,6 +76,11 @@ public class ParseTreeDrawer {
 
 	public String getTreeContent(Tree tree) {
 		return new VisualTree(tree).getVisualContent();
+	}
+
+	private ParseTreeDrawer(boolean toConsole, PrintWriter pw) {
+		this.pw = pw;
+		this.toConsole = toConsole;
 	}
 
 	private void draw(PrintWriter pw, VisualTree vTree) {
