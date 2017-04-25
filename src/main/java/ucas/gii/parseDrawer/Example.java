@@ -19,10 +19,10 @@ import edu.stanford.nlp.util.CoreMap;
 public class Example {
 	public static void main(String[] args) throws IOException {
 		Properties props = new Properties();
-		props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
+		props.put("annotators", "tokenize, ssplit, parse");
 		StanfordCoreNLP coreNlp = new StanfordCoreNLP(props);
 
-		String str = "It is a sentences for example,you can use the tool like that. Thanks!";
+		String str = "It is a example,you can use the tool like that. Thanks!";
 		Annotation document = new Annotation(str);
 		coreNlp.annotate(document);
 		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
